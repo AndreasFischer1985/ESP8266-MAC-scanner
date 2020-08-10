@@ -6,6 +6,9 @@ uint8_t broadcast1[3] = { 0x01, 0x00, 0x5e };
 uint8_t broadcast2[6] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
 uint8_t broadcast3[3] = { 0x33, 0x33, 0x00 };
 
+//If you want to detect a specific MAC Addess, put it here.
+uint8_t desired[6] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
 struct beaconinfo
 {
   uint8_t bssid[ETH_MAC_LEN];
@@ -181,4 +184,3 @@ struct beaconinfo parse_beacon(uint8_t *frame, uint16_t framelen, signed rssi)
   memcpy(bi.bssid, frame + 10, ETH_MAC_LEN);
   return bi;
 }
-
