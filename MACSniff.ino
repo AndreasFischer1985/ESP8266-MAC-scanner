@@ -1,5 +1,6 @@
 // by Ray Burnette 20161013 compiled on Linux 16.3 using Arduino 1.6.12
-//Hacked by Kosme 20170520 compiled on Ubuntu 14.04 using Arduino 1.6.11
+// Hacked by Kosme 20170520 compiled on Ubuntu 14.04 using Arduino 1.6.11
+// Enhanced by AndreasFischer1985 20200810 compiled on Debian 10.5 using Arduino 1.8.13
 
 #include <ESP8266WiFi.h>
 #include "./functions.h"
@@ -11,7 +12,8 @@ unsigned int channel = 1;
 void setup() {
   Serial.begin(57600);
   Serial.printf("\n\nSDK version:%s\n\r", system_get_sdk_version());
-  Serial.println(F("ESP8266 enhanced sniffer by Kosme https://github.com/kosme"));
+  Serial.println(F("\n\rESP8266 enhanced sniffer by AndreasFischer1986 https://github.com/andreasfischer1985"));  
+  Serial.println(F("\n\r        /---------MAC---------/-----WiFi Access Point SSID-----/  /------MAC------/  Chnl  RSSI"));
 
   wifi_set_opmode(STATION_MODE);            // Promiscuous works only with station mode
   wifi_set_channel(channel);
