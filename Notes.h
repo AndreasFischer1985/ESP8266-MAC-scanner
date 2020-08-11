@@ -53,21 +53,21 @@
 
 /*    Serial Console Sample Output:
   
-  ESP8266 enhanced sniffer by AndreasFischer1986 https://github.com/andreasfischer1985
+  ESP8266 enhanced sniffer by AndreasFischer1985 https://github.com/andreasfischer1985
 
-          /---------MAC---------/-----WiFi Access Point SSID-----/  /------MAC------/  Chnl  RSSI
-  BEACON: <==================== [                      TardisTime]  1a:fe:34:a0:8b:c9    8    -76
-  BEACON: <==================== [                     xfinitywifi]  56:57:1a:07:30:c0   11    -90
-  BEACON: <==================== [                      ATTGH6Gs22]  10:05:b1:d6:ff:90   11    -95
-  BEACON: <==================== [                      ATT4P3G9f8]  1c:14:48:77:74:20   11    -92
-  BEACON: <==================== [                       HOME-30C2]  5c:57:1a:07:30:c0   11    -91
-  BEACON: <==================== [                      ATT8Q4z656]  b0:77:ac:c4:df:d0   11    -92
-  BEACON: <==================== [                       HOME-B1C2]  94:87:7c:55:b1:c0   11    -94
-  BEACON: <==================== [                        HUXU2012]  0c:54:a5:d6:e4:80    6    -94
-  DEVICE: 18:fe:34:fd:c2:b8 ==> [                      TardisTime]  1a:fe:34:a0:8b:c9    8    -79
-  DEVICE: 18:fe:34:f9:77:a0 ==> [                                ]
-  DEVICE: 60:02:b4:48:4f:2d ==> [                      ATTGH6Gs22]  01:80:c2:00:00:00   11    -98
-  BEACON: <==================== [                   HOME-01FC-2.4]  84:00:2d:a2:51:d8    6   -100
-  DEVICE: 50:39:55:d3:48:34 ==> [                      ATT8Q4z656]  01:00:5e:7f:ff:fa   11    -87  
-  BEACON: <==================== [           Verizon-SM-G935V-6526]  a6:08:ea:30:65:26   11    -92
+          /---------MAC---------/-----WiFi Access Point SSID-----/  /------MAC------/  Chnl  RSSI APs DEVs
+  BEACON: <==================== [                      TardisTime]  1a:fe:34:a0:8b:c9    8    -76   1    0
+  BEACON: <==================== [                     xfinitywifi]  56:57:1a:07:30:c0   11    -90   2    0
+  BEACON: <==================== [                      ATTGH6Gs22]  10:05:b1:d6:ff:90   11    -95   3    0
+  BEACON: <==================== [                      ATT4P3G9f8]  1c:14:48:77:74:20   11    -92   4    0
+  BEACON: <==================== [                       HOME-30C2]  5c:57:1a:07:30:c0   11    -91   5    0
+  BEACON: <==================== [                      ATT8Q4z656]  b0:77:ac:c4:df:d0   11    -92   6    0
+  BEACON: <==================== [                       HOME-B1C2]  94:87:7c:55:b1:c0   11    -94   7    0
+  BEACON: <==================== [                        HUXU2012]  0c:54:a5:d6:e4:80    6    -94   8    0
+  DEVICE: 18:fe:34:fd:c2:b8 ==> [                      TardisTime]  1a:fe:34:a0:8b:c9    8    -79   8    1
+  DEVICE: 18:fe:34:f9:77:a0 ==> !                      AP UNKNOWN!                ???  ???    -76   8    2
+  DEVICE: 60:02:b4:48:4f:2d ==> [                      ATTGH6Gs22]  01:80:c2:00:00:00   11    -98   8    3
+  BEACON: <==================== [                   HOME-01FC-2.4]  84:00:2d:a2:51:d8    6   -100   9    3
+  DEVICE: 50:39:55:d3:48:34 ==> [                      ATT8Q4z656]  01:00:5e:7f:ff:fa   11    -87   9    4  
+  BEACON: <==================== [           Verizon-SM-G935V-6526]  a6:08:ea:30:65:26   11    -92  10    4
 */

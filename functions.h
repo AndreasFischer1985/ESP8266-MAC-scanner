@@ -1,4 +1,4 @@
-// This-->tab == "functions.h"
+// This-->tab == "functirons.h"
 
 // Expose Espressif SDK functionality
 extern "C" {
@@ -26,16 +26,16 @@ int register_beacon(beaconinfo beacon)
   int known = 0;   // Clear known flag
   for (int u = 0; u < aps_known_count; u++)
   {
-    if (! memcmp(aps_known[u].bssid, beacon.bssid, ETH_MAC_LEN)) {
+    if (!memcmp(aps_known[u].bssid, beacon.bssid, ETH_MAC_LEN)) {
       known = 1;
       break;
     }   // AP known => Set known flag
   }
-  if (! known)  // AP is NEW, copy MAC to array and return it
+  if (! known & beacon.err == 0)  // AP is NEW (and not erroneous), copy MAC to array and return it
   {
     memcpy(&aps_known[aps_known_count], &beacon, sizeof(beacon));
     aps_known_count++;
-
+    //Serial.printf("+1A;\r\n");
     if ((unsigned int) aps_known_count >=
         sizeof (aps_known) / sizeof (aps_known[0]) ) {
       Serial.printf("exceeded max aps_known\n");
@@ -50,7 +50,7 @@ int register_client(clientinfo ci)
   int known = 0;   // Clear known flag
   for (int u = 0; u < clients_known_count; u++)
   {
-    if (! memcmp(clients_known[u].station, ci.station, ETH_MAC_LEN)) {
+    if (!memcmp(clients_known[u].station, ci.station, ETH_MAC_LEN)) {
       known = 1;
       break;
     }
@@ -59,7 +59,7 @@ int register_client(clientinfo ci)
   {
     memcpy(&clients_known[clients_known_count], &ci, sizeof(ci));
     clients_known_count++;
-
+    //Serial.printf("+1C;\r\n");
     if ((unsigned int) clients_known_count >=
         sizeof (clients_known) / sizeof (clients_known[0]) ) {
       Serial.printf("exceeded max clients_known\n");
@@ -72,13 +72,14 @@ int register_client(clientinfo ci)
 void print_beacon(beaconinfo beacon)
 {
   if (beacon.err != 0) {
-    //Serial.printf("BEACON ERR: (%d)  ", beacon.err);
+    //Serial.printf("BEACON ERR: (%d)\r\n", beacon.err);
   } else {
     Serial.printf("BEACON: <==================== [%32s]  ", beacon.ssid);
     for (int i = 0; i < 5; i++) Serial.printf("%02x:", beacon.bssid[i]);
     Serial.printf("%02x", beacon.bssid[5]);
     Serial.printf("   %2d", beacon.channel);
-    Serial.printf("   %4d\r\n", beacon.rssi);
+    Serial.printf("   %4d", beacon.rssi);
+    Serial.printf(" %4d  %4d\r\n",aps_known_count,clients_known_count);
   }
 }
 
@@ -87,7 +88,7 @@ void print_client(clientinfo ci)
   int u = 0;
   int known = 0;   // Clear known flag
   if (ci.err != 0) {
-    // nothing
+    Serial.printf("CLIENT ERR: (%d)\r\n", ci.err);
   } else {
     Serial.printf("DEVICE: ");
     for (int i = 0; i < 5; i++) Serial.printf("%02x:", ci.station[i]);
@@ -96,7 +97,7 @@ void print_client(clientinfo ci)
 
     for (u = 0; u < aps_known_count; u++)
     {
-      if (! memcmp(aps_known[u].bssid, ci.bssid, ETH_MAC_LEN)) {
+      if (!memcmp(aps_known[u].bssid, ci.bssid, ETH_MAC_LEN)) {
         Serial.printf("[%32s]", aps_known[u].ssid);
         known = 1;     // AP known => Set known flag
         break;
@@ -104,16 +105,25 @@ void print_client(clientinfo ci)
     }
     
     if (! known)  {
-      Serial.printf("[                                ]                          \r\n");
-      //  for (int i = 0; i < 6; i++) Serial.printf("%02x", ci.bssid[i]);
+      Serial.printf("!%32s!", "AP UNKNOWN");
+      Serial.printf("%2s", " ");
+      //for (int i = 0; i < 5; i++) Serial.printf("%02x:", ci.bssid[i]);
+      //Serial.printf("%02x:", ci.bssid[5]);
+      //for (int i = 0; i < 5; i++) Serial.printf("%02x:", ci.ap[i]);
+      //Serial.printf("%02x!", ci.ap[5]);
+      Serial.printf("%17s","  ???");
+      Serial.printf("  ???");
+      Serial.printf("   %4d", ci.rssi);      
     } else {
       Serial.printf("%2s", " ");
       for (int i = 0; i < 5; i++) Serial.printf("%02x:", ci.ap[i]);
       Serial.printf("%02x", ci.ap[5]);
       Serial.printf("  %3d", aps_known[u].channel);
-      Serial.printf("   %4d\r\n", ci.rssi);
+      Serial.printf("   %4d", ci.rssi);
     }
   }
+  Serial.printf(" %4d  %4d\r\n",aps_known_count,clients_known_count);
+
 }
 
 void promisc_cb(uint8_t *buf, uint16_t len)
@@ -155,6 +165,7 @@ void promisc_cb(uint8_t *buf, uint16_t len)
   // https://ilovewifi.blogspot.mx/2012/07/80211-frame-types.html
   if((buf[12]==0x88)||(buf[12]==0x40)||(buf[12]==0x94)||(buf[12]==0xa4)||(buf[12]==0xb4)||(buf[12]==0x08))
   {
+    
     struct sniffer_buf *sniffer = (struct sniffer_buf*) buf;
     potencia = sniffer->rx_ctrl.rssi;
       struct clientinfo ci = parse_data(sniffer->buf, 36, sniffer->rx_ctrl.rssi, sniffer->rx_ctrl.channel);
@@ -164,7 +175,7 @@ void promisc_cb(uint8_t *buf, uint16_t len)
           nothing_new = 0;
         }
       }
-          
+    
     //Serial.printf("\r\nTYPE: %02x\r\n",buf[12]);
     //Serial.printf("DEVICE: ");
     // if(buf[12]==0x40) Serial.printf("Disconnected: ");
@@ -175,7 +186,7 @@ void promisc_cb(uint8_t *buf, uint16_t len)
     //for(int i=0;i<5;i++) {
     //  Serial.printf("%02x:",buf[22+i]);
     //}
-    //Serial.printf("%02x ==> [                                ]                          \r\n",buf[22+5]);
+    //Serial.printf("%02x ==> [                                ]                                \r\n",buf[22+5]);
     // Signal strength is in byte 0
     ////Serial.printf("%i\n",int8_t(buf[0]));
 

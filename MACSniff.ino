@@ -13,7 +13,7 @@ void setup() {
   Serial.begin(57600);
   Serial.printf("\n\nSDK version:%s\n\r", system_get_sdk_version());
   Serial.println(F("\n\rESP8266 enhanced sniffer by AndreasFischer1986 https://github.com/andreasfischer1985"));  
-  Serial.println(F("\n\r        /---------MAC---------/-----WiFi Access Point SSID-----/  /------MAC------/  Chnl  RSSI"));
+  Serial.println(F("\n\r        /---------MAC---------/-----WiFi Access Point SSID-----/  /------MAC------/  Chnl  RSSI  APs  DEVs"));
 
   wifi_set_opmode(STATION_MODE);            // Promiscuous works only with station mode
   wifi_set_channel(channel);
