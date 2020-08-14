@@ -1,4 +1,4 @@
-// This-->tab == "functirons.h"
+// This-->tab == "functions.h"
 
 // Expose Espressif SDK functionality
 extern "C" {
@@ -176,22 +176,7 @@ void promisc_cb(uint8_t *buf, uint16_t len)
         }
       }
     
-    //Serial.printf("\r\nTYPE: %02x\r\n",buf[12]);
-    //Serial.printf("DEVICE: ");
-    // if(buf[12]==0x40) Serial.printf("Disconnected: ");
-    // if(buf[12]==0x08) Serial.printf("Data: ");
-    // if(buf[12]==0x88) Serial.printf("QOS: ");
-    // Origin MAC address starts at byte 22
-    // Print MAC address
-    //for(int i=0;i<5;i++) {
-    //  Serial.printf("%02x:",buf[22+i]);
-    //}
-    //Serial.printf("%02x ==> [                                ]                                \r\n",buf[22+5]);
-    // Signal strength is in byte 0
-    ////Serial.printf("%i\n",int8_t(buf[0]));
-
-    // Enable this lines if you want to scan for a specific MAC address
-    // Specify desired MAC address on line 10 of structures.h
+    // Enable the following lines if you want to scan for a specific MAC address.Specify desired MAC address on line 8 of structures.h
     /*int same = 1;
     for(int i=0;i<6;i++)
     {
@@ -216,4 +201,32 @@ void promisc_cb(uint8_t *buf, uint16_t len)
   {
 
   }
+}
+
+void report()
+{
+  wifi_promiscuous_enable(0);
+  Serial.printf("\r\nAfter %2d min it's time for a short report.\r\n",(millis()-start)/1000/60);
+  if (WiFi.status() != WL_CONNECTED){
+    WiFi.begin(mynetwork, mypassword);
+    Serial.print("Connecting");
+    while (WiFi.status() != WL_CONNECTED){
+      delay(500);
+      Serial.print(".");
+    }
+    Serial.println();
+    Serial.print("Connected, IP address is ");
+    Serial.println(WiFi.localIP());
+    Serial.println();
+  }
+  
+  // WiFiClient espClient;
+  // PubSubClient client(espClient);
+  // client.setServer(MQTT_BROKER_IP, 1883);
+  // client.publish("/home/data", "Hello World");
+  // delay(500);
+  // ESP.restart();
+  
+  wifi_promiscuous_enable(1);
+
 }

@@ -1,13 +1,16 @@
-// by Ray Burnette 20161013 compiled on Linux 16.3 using Arduino 1.6.12
+// by Ray Burnetste 20161013 compiled on Linux 16.3 using Arduino 1.6.12
 // Hacked by Kosme 20170520 compiled on Ubuntu 14.04 using Arduino 1.6.11
 // Enhanced by AndreasFischer1985 20200810 compiled on Debian 10.5 using Arduino 1.8.13
 
-#include <ESP8266WiFi.h>
-#include "./functions.h"
-
-#define disable 0
-#define enable  1
+unsigned long start = 0;
 unsigned int channel = 1;
+
+const char* mynetwork="mynetwork";  
+const char* mypassword = "mypassword";
+
+#include <ESP8266WiFi.h>
+//#include <PubSubClient.h>
+#include "./functions.h"
 
 void setup() {
   Serial.begin(57600);
@@ -17,9 +20,11 @@ void setup() {
 
   wifi_set_opmode(STATION_MODE);            // Promiscuous works only with station mode
   wifi_set_channel(channel);
-  wifi_promiscuous_enable(disable);
+  wifi_promiscuous_enable(0);
   wifi_set_promiscuous_rx_cb(promisc_cb);   // Set up promiscuous callback
-  wifi_promiscuous_enable(enable);
+  wifi_promiscuous_enable(1);
+  start=millis();
+
 }
 
 void loop() {
@@ -34,5 +39,12 @@ void loop() {
       wifi_set_channel(channel);
     }
     delay(1);  // critical processing timeslice for NONOS SDK! No delay(0) yield()
+
+    if(false) //comment out to enable reporting (cf. report-function in functions.h)
+    if((millis()-start)>=10*60*1000) {
+        report();
+        start=millis();
+    } 
+    
   }
 }
