@@ -116,8 +116,8 @@ void print_client(clientinfo ci)
       Serial.printf("   %4d", ci.rssi);      
     } else {
       Serial.printf("%2s", " ");
-      for (int i = 0; i < 5; i++) Serial.printf("%02x:", ci.ap[i]);
-      Serial.printf("%02x", ci.ap[5]);
+      for (int i = 0; i < 5; i++) Serial.printf("%02x:", ci.bssid[i]);
+      Serial.printf("%02x", ci.bssid[5]);
       Serial.printf("  %3d", aps_known[u].channel);
       Serial.printf("   %4d", ci.rssi);
     }

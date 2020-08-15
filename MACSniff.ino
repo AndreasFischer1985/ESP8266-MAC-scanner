@@ -1,4 +1,4 @@
-// by Ray Burnetste 20161013 compiled on Linux 16.3 using Arduino 1.6.12
+// by Ray Burnette 20161013 compiled on Linux 16.3 using Arduino 1.6.12
 // Hacked by Kosme 20170520 compiled on Ubuntu 14.04 using Arduino 1.6.11
 // Enhanced by AndreasFischer1985 20200810 compiled on Debian 10.5 using Arduino 1.8.13
 
